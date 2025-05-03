@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Multi Forms</title>
+    <link rel="stylesheet" href="forms.css" />
+  </head>
+  <body>
+    <form id="multi-form">
+      <h2>Forms</h2>
+
+      <div class="form-card base-card">
+        <label for="nombre-0">
+          Nombre:
+          <input
+            id="nombre-0"
+            type="text"
+            name="nombre"
+            data-name="Nombre"
+            data-type="string"
+            data-minlength="2"
+            data-maxlength="30"
+            required
+            onblur="handleValidation(this)"
+          />
+          <div class="error-message"></div>
+        </label>
+        <label for="select-0">
+          Nombre:
+          <select
+            id="select-0"
+            type="text"
+            name="option"
+            data-name="option"
+            data-type="number"
+            data-minlength="2"
+            data-maxlength="30"
+            required
+            onblur="handleValidation(this)"
+          >
+            <option value="">Selecciona uno</option>
+            <option value="1">option uno</option>
+            <option value="2">option dos</option>
+          </select>
+          <div class="error-message"></div>
+        </label>
+        <div style="display: flex">
+            <div class="radio-group" data-type="radio" data-name="option" data-group-name="radio">
+                <div style="display: flex;">
+                    <label for="radio-0">
+                        Si
+                        <input id="radio-0" type="radio" name="radio" value="si" />
+                      </label>
+                      <label for="radio-1">
+                        No
+                        <input id="radio-1" type="radio" name="radio" value="no" />
+                      </label>
+                </div>
+                <div class="error-message"></div>
+              </div>
+            <div class="error-message"></div>
+          </label>
+        </div>
+
+        <div style="display: flex">
+            <div class="checkbox-group" data-type="checkbox" data-name="checkbox" data-group-name="checkbox">
+                <div style="display: flex;">
+                    <label for="checkbox-0">
+                        Si
+                        <input id="checkbox-0" type="checkbox" name="checkbox" value="si" />
+                      </label>
+                      <label for="checkbox-1">
+                        No
+                        <input id="checkbox-1" type="checkbox" name="checkbox" value="no" />
+                      </label>
+                </div>
+                <div class="error-message"></div>
+              </div>
+          </div>
+        <button type="button" id="add-form">Agregar más</button>
+      </div>
+
+      <div id="forms-container"></div>
+
+      <button type="submit" id="send-form">Enviar</button>
+    </form>
+
+    <script src="validator.js"></script>
+
+    <script>
+      function handleValidation(elem) {
+        const error = validateInput(elem);
+        if (error) {
+          showError(elem, error);
+        } else {
+          clearError(elem);
+        }
+      }
+
+      const form = document.getElementById("multi-form");
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        let hasError = false;
+        const inputs = form.querySelectorAll("input[data-type], .radio-group[data-type], .checkbox-group[data-type]");
+        console.log(inputs);
+        inputs.forEach((input) => {
+          const error = validateInput(input);
+          if (error) {
+            showError(input, error);
+            hasError = true;
+          } else {
+            clearError(input);
+          }
+        });
+
+        if (hasError) {
+          alert("Hay errores en el formulario. Corrígelos antes de continuar.");
+        } else {
+          alert("Formulario válido. Enviando...");
+          //  form.submit();
+        }
+      });
+    </script>
+  </body>
+</html>
